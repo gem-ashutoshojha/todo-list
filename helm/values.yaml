@@ -4,8 +4,8 @@ mongo:
   name: mongo
   image:
     registry: docker.io
-    repository: mvertes/alpine-mongo
-    tag: latest
+    repository: mongo
+    tag: 7.0
   imagePullPolicy: IfNotPresent
   service:
     type: ClusterIP
