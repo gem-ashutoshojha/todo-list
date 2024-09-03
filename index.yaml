@@ -2,13 +2,13 @@ apiVersion: v1
 entries:
   todo-list:
   - apiVersion: v1
-    created: "2024-09-03T12:16:21.189954386Z"
+    created: "2024-09-03T17:50:20.290933726+05:30"
     description: Helm Chart for ToDo FlaskApp with MongoDB
-    digest: ba8db6004c1ec0ab6e7127b56d25138a1cdfbe792a3092b52615b8ab2c4d71ea
+    digest: ed3746bb888376d4c9be8e6d73423966013c3622a08abb4d4124efa74e3997a2
     keywords:
     - todo-list
     name: todo-list
     urls:
     - https://raw.githubusercontent.com/gem-ashutoshojha/todo-list/main/todo-list-1.1.0.tgz
     version: 1.1.0
-generated: "2024-09-03T12:16:21.189554842Z"
+generated: "2024-09-03T17:50:20.290549392+05:30"
