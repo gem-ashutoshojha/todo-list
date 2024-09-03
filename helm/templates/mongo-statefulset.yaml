@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.mongo.name }}
+  labels:
+    app: {{ .Values.mongo.name }}
+    app.kubernetes.io/component: {{ .Values.mongo.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.mongo.name }}
+      app.kubernetes.io/component: {{ .Values.mongo.name }}
+  serviceName: {{ .Values.mongo.name }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mongo.name }}
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-ormae-pull-secret
+        - name: acr-scopt-pull-secret
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: {{ .Values.mongo.name }}-k8s
+          image: {{ template "mongo.image" . }}
+          imagePullPolicy: {{ .Values.mongo.imagePullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.mongo.name }}-config
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mongo.name }}-credentials
+                  key: MONGO_INITDB_ROOT_PASSWORD
+          volumeMounts:
+            - name: {{ .Values.flaskapp.name }}-data
+              mountPath: /data/db
+          ports:
+            - name: {{ .Values.mongo.name }}
+              protocol: TCP
+              containerPort: {{ .Values.mongo.service.port }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Values.flaskapp.name }}-data
+        labels:
+          app: {{ .Values.mongo.name }}
+          app.kubernetes.io/component: {{ .Values.mongo.name }}
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi

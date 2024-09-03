@@ -10,13 +10,15 @@ mongo:
   service:
     type: ClusterIP
     port: 27017
+  root:
+    password: cGE4OHcwcmQ=      # in base64
 
 flaskapp:
-  name: todo-flaskapp
+  name: todo-list
   env: production
   image:
     registry: docker.io
-    repository: coolboi567/todo-flaskapp
+    repository: ashutoshojha5/todo-list
     tag: latest
   imagePullPolicy: Always
   service:

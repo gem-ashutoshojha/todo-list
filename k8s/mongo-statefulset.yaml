@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+  labels:
+    app: mongo
+spec:
+  selector:
+    matchLabels:
+      app: mongo
+  serviceName: mongo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      imagePullSecrets:
+        - name: dockerhub-ormae-pull-secret
+        - name: acr-scopt-pull-secret
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongo-k8s
+          image: mongo:4.4.13
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: 1Gi
+            limits:
+              memory: 8Gi
+          envFrom:
+            - configMapRef:
+                name: mongo-config
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-credentials
+                  key: MONGO_INITDB_ROOT_PASSWORD
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
+          ports:
+            - name: mongo
+              protocol: TCP
+              containerPort: 27017
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-data
+        labels:
+          app: mongo
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi

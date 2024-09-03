@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.mongo.name }}-config
+data:
+  MONGO_INITDB_ROOT_USERNAME: root
+  MONGO_RW_ANY_USERNAME: admin
+  MONGO_INITDB_DATABASE: entity_data

@@ -1,12 +1,12 @@
-from flask import Flask, render_template,request,redirect,url_for # For flask implementation
-from pymongo import MongoClient # Database connector
-from bson.objectid import ObjectId # For ObjectId to work
-from bson.errors import InvalidId # For catching InvalidId exception for ObjectId
+from flask import Flask, render_template,request,redirect,url_for
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+from bson.errors import InvalidId
 import os
 
 mongodb_host = os.environ.get('MONGO_HOST', 'localhost')
 mongodb_port = int(os.environ.get('MONGO_PORT', '27017'))
-client = MongoClient(mongodb_host, mongodb_port)    #Configure the connection to the database
+client = MongoClient(f"mongodb://{os.environ.get('MONGO_USER', 'root')}:{os.environ.get('MONGO_PASS', 'password')}@{os.environ.get('MONGO_HOST', 'localhost')}:{int(os.environ.get('MONGO_PORT', '27017'))}")
 db = client.camp2016    #Select the database
 todos = db.todo #Select the collection
 

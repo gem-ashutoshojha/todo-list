@@ -3,15 +3,14 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/component: {{ .Values.flaskapp.name }}
-  name: todo-flaskapp
+    app: {{ .Values.flaskapp.name }}
+  name: {{ .Values.flaskapp.name }}
 spec:
   ports:
     - name: "http"
       port: {{ .Values.flaskapp.service.port }}
-      targetPort: {{ .Values.flaskapp.service.port }}
+      targetPort: http
       protocol: TCP
   selector:
-    app.kubernetes.io/component: {{ .Values.flaskapp.name }}
+    app: {{ .Values.flaskapp.name }}
   type: {{ .Values.flaskapp.service.type }}
-status:
-  loadBalancer: {}

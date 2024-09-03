@@ -1,20 +1,7 @@
-# syntax=docker/dockerfile:1
+FROM ashutoshojha5/miniconda3:main
 
-FROM python:3.10-alpine3.15
-
-LABEL MAINTAINER "Prashant Shahi <me@prashantshahi.dev>"
-
-RUN pip install --upgrade pip
-
-RUN adduser -D appuser
-USER appuser
-WORKDIR /home/appuser
-
-ENV PATH="/home/appuser/.local/bin:${PATH}"
-
-COPY --chown=appuser:appuser requirements.txt requirements.txt
-RUN pip install --user -r requirements.txt
-
-COPY --chown=appuser:appuser . .
-
+COPY --chown=anaconda:anaconda requirements.txt /src/requirements.txt
+WORKDIR /src
+RUN pip install -r requirements.txt
+COPY --chown=anaconda:anaconda . .
 CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]
