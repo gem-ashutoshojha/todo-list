@@ -19,7 +19,7 @@ flaskapp:
   image:
     registry: docker.io
     repository: ashutoshojha5/todo-list
-    tag: latest
+    tag: main
   imagePullPolicy: Always
   service:
     type: ClusterIP
