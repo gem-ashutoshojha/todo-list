@@ -1,0 +1,31 @@
+name: Release Charts
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.7
+        with:
+          token: "${{ secrets.TOKEN }}"
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4.2.0
+
+      - name: Update Index
+        run: |
+          helm package 3-tier-app
+          helm repo index . --url https://raw.githubusercontent.com/gem-ashutoshojha/charts/main
+          git config --global user.email "ashutosh.ojha@geminisolutions.com"
+          git config --global user.name "Ashutosh Ojha"
+          git add . -A
+          git commit -m "Update chart index"
+          git push
+#      - name: Run chart-releaser
+#        uses: helm/chart-releaser-action@v1.6.0
+#        env:
+#          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/component: {{ .Values.flaskapp.name }}
     app: {{ .Values.flaskapp.name }}
   name: {{ .Values.flaskapp.name }}
 spec:
@@ -14,7 +13,7 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/component: {{ .Values.flaskapp.name }}
+        app: {{ .Values.flaskapp.name }}
     spec:
       containers:
         - name: {{ .Values.flaskapp.name }}
