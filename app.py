@@ -6,7 +6,7 @@ import os
 
 mongodb_host = os.environ.get('MONGO_HOST', 'localhost')
 mongodb_port = int(os.environ.get('MONGO_PORT', '27017'))
-client = MongoClient(f"mongodb://{os.environ.get('MONGO_USER', 'root')}:{os.environ.get('MONGO_PASS', 'password')}@{os.environ.get('MONGO_HOST', 'localhost')}:{int(os.environ.get('MONGO_PORT', '27017'))}")
+client = MongoClient(f"mongodb://{os.environ.get('MONGO_USER', 'root')}:{os.environ.get('MONGO_PASS', 'password')}@{os.environ.get('MONGO_HOST', 'localhost')}:{int(os.environ.get('MONGO_PORT', '27017'))}/test?authSource=admin")
 db = client.camp2016    #Select the database
 todos = db.todo #Select the collection
 
