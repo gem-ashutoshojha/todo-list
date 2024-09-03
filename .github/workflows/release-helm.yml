@@ -18,14 +18,10 @@ jobs:
 
       - name: Update Index
         run: |
-          helm package 3-tier-app
-          helm repo index . --url https://raw.githubusercontent.com/gem-ashutoshojha/charts/main
+          helm package helm
+          helm repo index . --url https://raw.githubusercontent.com/gem-ashutoshojha/todo-list/main
           git config --global user.email "ashutosh.ojha@geminisolutions.com"
           git config --global user.name "Ashutosh Ojha"
           git add . -A
           git commit -m "Update chart index"
           git push
-#      - name: Run chart-releaser
-#        uses: helm/chart-releaser-action@v1.6.0
-#        env:
-#          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
